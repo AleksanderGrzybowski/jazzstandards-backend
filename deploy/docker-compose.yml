@@ -1,0 +1,21 @@
+version: '2'
+services:
+  frontend:
+    image: jazzstandards-frontend
+    build: jazzstandards-frontend
+      
+  backend:
+    image: jazzstandards-backend
+    build: jazzstandards-backend
+      
+  mysql:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=jazzstandards
+      
+  proxy:
+    image: jazzstandards-proxy
+    build: jazzstandards-proxy
+    ports:
+      - 80:80
