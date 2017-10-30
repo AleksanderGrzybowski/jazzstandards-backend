@@ -50,6 +50,10 @@ public class AppService {
         }
     }
     
+    void deleteAllData() {
+        songRepository.delete(songRepository.findAll());
+    }
+    
     private boolean hasTodaysPractice(Song song) {
         return song.getPracticeLog().stream()
                 .filter(practice -> practice.getDay().equals(dateService.now()))

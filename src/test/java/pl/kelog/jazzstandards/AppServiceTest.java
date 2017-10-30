@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -121,5 +122,15 @@ public class AppServiceTest {
         PracticeDay createdPracticeDay = captor.getValue();
         assertThat(createdPracticeDay.getSong()).isEqualTo(song);
         assertThat(createdPracticeDay.getDay()).isEqualTo(NOW);
+    }
+    
+    @Test
+    public void should_delete_all_songs() {
+        List<Song> songs = asList(new Song(), new Song());
+        when(songRepositoryMock.findAll()).thenReturn(songs);
+        
+        appService.deleteAllData();
+    
+        verify(songRepositoryMock, times(1)).delete(songs);
     }
 }

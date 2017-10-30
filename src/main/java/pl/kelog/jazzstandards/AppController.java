@@ -38,6 +38,11 @@ public class AppController {
         appService.saveTodayPractice(id);
     }
     
+    @RequestMapping(value = "/songs", method = RequestMethod.DELETE)
+    public void deleteAll() {
+        appService.deleteAllData();
+    }
+    
     @Data
     private static class SongDto {
         public Long id;
