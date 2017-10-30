@@ -21,6 +21,13 @@ services:
     build: jazzstandards-proxy
     ports:
       - 80:80
+      
+  backups:
+    image: jazzstandards-backups
+    build: jazzstandards-backups
+    volumes:
+      - backups:/storage
 
 volumes:
   data:
+  backups:
