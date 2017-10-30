@@ -1,6 +1,6 @@
 FROM mariadb
 
-RUN apt-get update && apt-get install -y cron
+RUN apt-get update && apt-get install -y cron bzip2
  
 ADD crontab /etc/cron.d/backup
 ADD backup.sh /backup.sh
