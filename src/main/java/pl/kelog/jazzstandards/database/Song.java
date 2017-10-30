@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,5 +22,5 @@ public class Song {
     private String title, backingTrackUrl;
     
     @OneToMany(mappedBy = "song")
-    private Set<PracticeDay> practiceLog;
+    private Set<PracticeDay> practiceLog = new HashSet<>();
 }

@@ -8,17 +8,19 @@ import pl.kelog.jazzstandards.database.PracticeDayRepository;
 import pl.kelog.jazzstandards.database.Song;
 import pl.kelog.jazzstandards.database.SongRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AppService {
     
+    private final DateService dateService;
+    
     private final SongRepository songRepository;
     private final PracticeDayRepository practiceDayRepository;
     
-    AppService(SongRepository songRepository, PracticeDayRepository practiceDayRepository) {
+    AppService(DateService dateService, SongRepository songRepository, PracticeDayRepository practiceDayRepository) {
+        this.dateService = dateService;
         this.songRepository = songRepository;
         this.practiceDayRepository = practiceDayRepository;
     }
@@ -43,14 +45,14 @@ public class AppService {
         if (!hasTodaysPractice(song)) {
             PracticeDay practiceDay = new PracticeDay();
             practiceDay.setSong(song);
-            practiceDay.setDay(LocalDate.now());
+            practiceDay.setDay(dateService.now());
             practiceDayRepository.save(practiceDay);
         }
     }
     
     private boolean hasTodaysPractice(Song song) {
         return song.getPracticeLog().stream()
-                .filter(practice -> practice.getDay().equals(LocalDate.now()))
+                .filter(practice -> practice.getDay().equals(dateService.now()))
                 .count() != 0;
     }
     
@@ -67,10 +69,10 @@ public class AppService {
     }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private static class ValidationException extends RuntimeException {
+    static class ValidationException extends RuntimeException {
     }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private static class SongNotFoundException extends RuntimeException {
+    static class SongNotFoundException extends RuntimeException {
     }
 }
