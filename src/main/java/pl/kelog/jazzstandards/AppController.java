@@ -14,14 +14,18 @@ import static java.util.stream.Collectors.toList;
 public class AppController {
     
     private final AppService appService;
+    private final SongComparator songComparator;
     
-    public AppController(AppService appService) {
+    public AppController(AppService appService, SongComparator songComparator) {
         this.appService = appService;
+        this.songComparator = songComparator;
     }
     
     @RequestMapping(value = "/songs", method = RequestMethod.GET)
     public List<SongDto> listSongs() {
-        return appService.findAll().stream().map(SongDto::new).collect(toList());
+        return appService.findAll().stream()
+                .sorted(songComparator.reversed())
+                .map(SongDto::new).collect(toList());
     }
     
     @RequestMapping(value = "/songs", method = RequestMethod.POST)
