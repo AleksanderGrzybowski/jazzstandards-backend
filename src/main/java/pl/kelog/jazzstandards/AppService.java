@@ -39,14 +39,17 @@ public class AppService {
     }
     
     
-    void saveTodayPractice(long songId) {
+    void toggleTodayPractice(long songId) {
         Song song = findOrThrow(songId);
-        
-        if (!hasTodaysPractice(song)) {
-            PracticeDay practiceDay = new PracticeDay();
-            practiceDay.setSong(song);
-            practiceDay.setDay(dateService.now());
-            practiceDayRepository.save(practiceDay);
+    
+        Optional<PracticeDay> practiceDay = findTodaysPractice(song);
+        if (practiceDay.isPresent()) {
+            practiceDayRepository.delete(practiceDay.get());
+        } else {
+            PracticeDay newPracticeDay = new PracticeDay();
+            newPracticeDay.setSong(song);
+            newPracticeDay.setDay(dateService.now());
+            practiceDayRepository.save(newPracticeDay);
         }
     }
     
@@ -54,10 +57,10 @@ public class AppService {
         songRepository.delete(songRepository.findAll());
     }
     
-    private boolean hasTodaysPractice(Song song) {
+    private Optional<PracticeDay> findTodaysPractice(Song song) {
         return song.getPracticeLog().stream()
                 .filter(practice -> practice.getDay().equals(dateService.now()))
-                .count() != 0;
+                .findFirst();
     }
     
     private Song findOrThrow(long songId) {

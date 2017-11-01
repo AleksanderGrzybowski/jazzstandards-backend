@@ -85,12 +85,12 @@ public class AppServiceTest {
     }
     
     @Test(expected = AppService.SongNotFoundException.class)
-    public void should_not_save_today_practice_if_id_of_nonexistent_song_is_given() {
-        appService.saveTodayPractice(123);
+    public void should_not_toggle_today_practice_if_id_of_nonexistent_song_is_given() {
+        appService.toggleTodayPractice(123);
     }
     
     @Test
-    public void should_not_save_today_practice_if_there_is_already_a_practice_from_today() {
+    public void should_delete_today_practice_if_there_is_already_a_practice_from_today() {
         Song song = new Song();
         song.setId(1L);
         
@@ -102,9 +102,9 @@ public class AppServiceTest {
         
         when(songRepositoryMock.getOne(1L)).thenReturn(song);
         
-        appService.saveTodayPractice(1);
+        appService.toggleTodayPractice(1);
         
-        verify(practiceDayRepositoryMock, times(0)).save(any(PracticeDay.class));
+        verify(practiceDayRepositoryMock, times(1)).delete(todaysPractice);
     }
     
     @Test
@@ -113,8 +113,8 @@ public class AppServiceTest {
         song.setId(1L);
         
         when(songRepositoryMock.getOne(1L)).thenReturn(song);
-        
-        appService.saveTodayPractice(1);
+    
+        appService.toggleTodayPractice(1);
         
         ArgumentCaptor<PracticeDay> captor = ArgumentCaptor.forClass(PracticeDay.class);
         verify(practiceDayRepositoryMock, times(1)).save(captor.capture());

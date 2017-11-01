@@ -33,9 +33,9 @@ public class AppController {
         appService.create(dto.title, dto.backingTrackUrl);
     }
     
-    @RequestMapping(value = "/songs/{id}/practice", method = RequestMethod.PUT)
-    public void logPractice(@PathVariable Long id) {
-        appService.saveTodayPractice(id);
+    @RequestMapping(value = "/songs/{id}/togglePractice", method = RequestMethod.POST)
+    public void toggleTodayPractice(@PathVariable Long id) {
+        appService.toggleTodayPractice(id);
     }
     
     @RequestMapping(value = "/songs", method = RequestMethod.DELETE)
