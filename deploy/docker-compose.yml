@@ -3,10 +3,12 @@ services:
   frontend:
     image: jazzstandards-frontend
     build: jazzstandards-frontend
+    restart: always
       
   backend:
     image: jazzstandards-backend
     build: jazzstandards-backend
+    restart: always
       
   mysql:
     image: mariadb
@@ -15,18 +17,21 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=jazzstandards
+    restart: always
       
   proxy:
     image: jazzstandards-proxy
     build: jazzstandards-proxy
     ports:
       - 127.0.0.1:51920:80
+    restart: always
       
   backups:
     image: jazzstandards-backups
     build: jazzstandards-backups
     volumes:
       - backups:/storage
+    restart: always
 
 volumes:
   data:
