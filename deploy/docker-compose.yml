@@ -20,7 +20,7 @@ services:
     image: jazzstandards-proxy
     build: jazzstandards-proxy
     ports:
-      - 80:80
+      - 127.0.0.1:51920:80
       
   backups:
     image: jazzstandards-backups
