@@ -11,5 +11,5 @@ COPY --from=0 /app/build/libs/app-0.0.1-SNAPSHOT.jar /
 WORKDIR /
 ENV SPRING_PROFILES_ACTIVE production
 
-CMD java -jar app-0.0.1-SNAPSHOT.jar
+CMD java -Xmx40m -jar app-0.0.1-SNAPSHOT.jar
 
