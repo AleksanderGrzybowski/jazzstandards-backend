@@ -8,10 +8,12 @@ import pl.kelog.jazzstandards.database.PracticeDayRepository;
 import pl.kelog.jazzstandards.database.Song;
 import pl.kelog.jazzstandards.database.SongRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AppService {
     
     private final DateService dateService;
@@ -38,7 +40,6 @@ public class AppService {
         songRepository.save(song);
     }
     
-    
     void toggleTodayPractice(long songId) {
         Song song = findOrThrow(songId);
     
@@ -51,10 +52,6 @@ public class AppService {
             newPracticeDay.setDay(dateService.now());
             practiceDayRepository.save(newPracticeDay);
         }
-    }
-    
-    void deleteAllData() {
-        songRepository.delete(songRepository.findAll());
     }
     
     private Optional<PracticeDay> findTodaysPractice(Song song) {

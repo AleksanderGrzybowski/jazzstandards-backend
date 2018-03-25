@@ -28,19 +28,9 @@ public class AppController {
                 .map(SongDto::new).collect(toList());
     }
     
-    @RequestMapping(value = "/songs", method = RequestMethod.POST)
-    public void createSong(@RequestBody SongDto dto) {
-        appService.create(dto.title, dto.backingTrackUrl);
-    }
-    
     @RequestMapping(value = "/songs/{id}/togglePractice", method = RequestMethod.POST)
     public void toggleTodayPractice(@PathVariable Long id) {
         appService.toggleTodayPractice(id);
-    }
-    
-    @RequestMapping(value = "/songs", method = RequestMethod.DELETE)
-    public void deleteAll() {
-        appService.deleteAllData();
     }
     
     @Data
